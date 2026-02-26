@@ -21,7 +21,8 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",              // local frontend
-      "https://library-micro-serveces-app.vercel.app/" // deployed frontend (optional)
+      "https://frontend-atelier5.vercel.app", // actual deployed frontend
+      "https://library-micro-serveces-app.vercel.app" // previous reference (no slash)
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
