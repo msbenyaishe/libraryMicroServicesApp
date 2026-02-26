@@ -24,7 +24,7 @@ const Dashboard = () => {
 
         setStats({
           books: Array.isArray(booksRes.data) ? booksRes.data.length : 0,
-          members: Array.isArray(customersRes.data) ? customersRes.data.length : 0,
+          members: Array.isArray(customersRes.data.customers) ? customersRes.data.customers.length : 0,
           orders: Array.isArray(ordersRes.data) ? ordersRes.data.length : 0,
           loading: false,
           error: null
@@ -50,7 +50,7 @@ const Dashboard = () => {
 
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <h2 className="font-heading" style={{ fontSize: '1.875rem' }}>Dashboard Overview</h2>
         <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center', color: 'var(--secondary)', fontWeight: '600', fontSize: '0.875rem' }}>
           <TrendingUp size={16} />
@@ -68,10 +68,10 @@ const Dashboard = () => {
         {statCards.map((card, idx) => (
           <div key={idx} className="card" style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
             <div>
-              <h3 style={{ color: 'var(--text-muted)', fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '0.025em' }}>{card.label}</h3>
-              <p style={{ fontSize: '2.25rem', fontWeight: '700', marginTop: '0.5rem', color: 'var(--text-main)' }}>{card.value}</p>
+              <h3 style={{ color: 'var(--text-muted)', fontSize: '0.8125rem', textTransform: 'uppercase', letterSpacing: '0.025em' }}>{card.label}</h3>
+              <p style={{ fontSize: '2rem', fontWeight: '700', marginTop: '0.5rem', color: 'var(--text-main)' }}>{card.value}</p>
             </div>
-            <div style={{ padding: '0.75rem', borderRadius: '12px', background: `${card.color}15`, color: card.color }}>
+            <div style={{ padding: '0.625rem', borderRadius: '12px', background: `${card.color}15`, color: card.color }}>
               {card.icon}
             </div>
           </div>
@@ -81,13 +81,13 @@ const Dashboard = () => {
       <div className="grid grid-cols-2" style={{ marginTop: '2rem' }}>
         <div className="card">
           <h4 style={{ marginBottom: '1rem' }}>Quick Actions</h4>
-          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
             <button className="btn btn-primary" onClick={() => window.location.href='/borrowing'}>Create Borrowing</button>
             <button className="btn btn-secondary" onClick={() => window.location.href='/books'}>Add New Book</button>
           </div>
         </div>
         <div className="card">
-          <h4 style={{ marginBottom: '1rem' }}>Sytem Status</h4>
+          <h4 style={{ marginBottom: '1rem' }}>System Status</h4>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
               <span>Books Service</span>

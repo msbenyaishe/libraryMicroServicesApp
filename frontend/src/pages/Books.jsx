@@ -64,10 +64,10 @@ const Books = () => {
 
   return (
     <div className="fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2 className="font-heading" style={{ fontSize: '1.875rem' }}>Book Collection</h2>
-          <p className="text-muted">Manage your library's physical resources</p>
+          <p className="text-muted" style={{ fontSize: '0.875rem' }}>Manage your library's physical resources</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
           <BookPlus size={18} />
@@ -121,7 +121,7 @@ const Books = () => {
                 />
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexWrap: 'wrap' }}>
               <button type="submit" className="btn btn-primary">Save Book</button>
               <button type="button" className="btn btn-ghost" onClick={() => setShowAddForm(false)}>Discard</button>
             </div>
@@ -130,8 +130,8 @@ const Books = () => {
       )}
 
       <div className="card" style={{ padding: '0' }}>
-        <div style={{ padding: '1.5rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ position: 'relative', width: '300px' }}>
+        <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem' }}>
+          <div style={{ position: 'relative', width: '100%', maxWidth: '300px' }}>
             <Search size={18} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: 'var(--text-muted)' }} />
             <input 
               type="text" 
@@ -179,13 +179,13 @@ const Books = () => {
                         <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>by {book.author}</span>
                       </div>
                     </td>
-                    <td style={{ fontSize: '0.875rem', fontFamily: 'monospace' }}>{book.ISBN}</td>
+                    <td style={{ fontSize: '0.8125rem', fontFamily: 'monospace' }}>{book.ISBN}</td>
                     <td>{book.publisher}</td>
                     <td>
                       <span className="badge badge-success">Available</span>
                     </td>
                     <td>
-                      <div style={{ display: 'flex', gap: '0.5rem' }}>
+                      <div style={{ display: 'flex', gap: '0.25rem' }}>
                         <button className="btn btn-ghost" style={{ padding: '6px' }} title="Details">
                           <Info size={18} />
                         </button>
@@ -211,7 +211,7 @@ const Books = () => {
             </table>
           )}
         </div>
-        <div style={{ padding: '1rem 1.5rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+        <div style={{ padding: '1rem 1.25rem', borderTop: '1px solid var(--border-color)', display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '0.5rem' }}>
           <span>Showing {filteredBooks.length} books</span>
           <span>Last synced: {new Date().toLocaleTimeString()}</span>
         </div>

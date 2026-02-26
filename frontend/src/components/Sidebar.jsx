@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
-import { LayoutDashboard, BookOpen, Users, ArrowLeftRight, Library } from "lucide-react";
+import { LayoutDashboard, BookOpen, Users, ArrowLeftRight, Library, X } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, onClose }) => {
   const navItems = [
     { path: "/", icon: <LayoutDashboard size={20} />, label: "Dashboard" },
     { path: "/books", icon: <BookOpen size={20} />, label: "Books" },
@@ -10,10 +10,19 @@ const Sidebar = () => {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${isOpen ? "open" : ""}`}>
       <div className="sidebar-brand">
-        <Library size={32} className="text-primary" />
-        <span>LibrisCore</span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <Library size={32} className="text-primary" />
+          <span>LibrisCore</span>
+        </div>
+        <button 
+          className="btn btn-ghost mobile-only" 
+          onClick={onClose}
+          style={{ padding: '4px' }}
+        >
+          <X size={24} />
+        </button>
       </div>
       <nav className="sidebar-nav">
         {navItems.map((item) => (
@@ -21,6 +30,7 @@ const Sidebar = () => {
             key={item.path}
             to={item.path}
             className={({ isActive }) => `nav-link ${isActive ? "active" : ""}`}
+            onClick={onClose}
           >
             {item.icon}
             <span>{item.label}</span>

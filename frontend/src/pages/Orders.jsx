@@ -13,8 +13,8 @@ const Orders = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   
   const [newOrder, setNewOrder] = useState({
-    customerID: "",
-    bookID: "",
+    CustomerID: "",
+    BookID: "",
   });
 
   const fetchData = useCallback(async () => {
@@ -28,7 +28,7 @@ const Orders = () => {
 
       setOrders(Array.isArray(ordersRes.data) ? ordersRes.data : []);
       setBooks(Array.isArray(booksRes.data) ? booksRes.data : []);
-      setCustomers(Array.isArray(customersRes.data) ? customersRes.data : []);
+      setCustomers(Array.isArray(customersRes.data.customers) ? customersRes.data.customers : []);
       setError(null);
     } catch (err) {
       console.error("Borrowing fetch error:", err);
@@ -45,18 +45,22 @@ const Orders = () => {
   const handleCreateOrder = async (e) => {
     e.preventDefault();
     try {
-      if (!newOrder.customerID || !newOrder.bookID) {
+      if (!newOrder.CustomerID || !newOrder.BookID) {
         alert("Please select both a member and a book.");
         return;
       }
       
+      const now = new Date();
+      const nextFortnight = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+
       const orderData = {
         ...newOrder,
-        borrowDate: new Date().toISOString().split('T')[0]
+        initialDate: now.toISOString().split('T')[0],
+        deliveryDate: nextFortnight.toISOString().split('T')[0]
       };
 
       await ordersService.addOrder(orderData);
-      setNewOrder({ customerID: "", bookID: "" });
+      setNewOrder({ CustomerID: "", BookID: "" });
       setShowAddForm(false);
       fetchData();
     } catch (err) {
@@ -77,10 +81,10 @@ const Orders = () => {
 
   return (
     <div className="fade-in">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
         <div>
           <h2 className="font-heading" style={{ fontSize: '1.875rem' }}>Borrowing Operations</h2>
-          <p className="text-muted">Track and manage book lending history</p>
+          <p className="text-muted" style={{ fontSize: '0.875rem' }}>Track and manage book lending history</p>
         </div>
         <button className="btn btn-primary" onClick={() => setShowAddForm(!showAddForm)}>
           <PlusCircle size={18} />
@@ -98,8 +102,8 @@ const Orders = () => {
                 <select 
                   className="form-input" 
                   required 
-                  value={newOrder.customerID}
-                  onChange={e => setNewOrder({...newOrder, customerID: e.target.value})}
+                  value={newOrder.CustomerID}
+                  onChange={e => setNewOrder({...newOrder, CustomerID: e.target.value})}
                 >
                   <option value="">-- Choose a member --</option>
                   {customers.map(c => (
@@ -112,8 +116,8 @@ const Orders = () => {
                 <select 
                   className="form-input" 
                   required 
-                  value={newOrder.bookID}
-                  onChange={e => setNewOrder({...newOrder, bookID: e.target.value})}
+                  value={newOrder.BookID}
+                  onChange={e => setNewOrder({...newOrder, BookID: e.target.value})}
                 >
                   <option value="">-- Choose a book --</option>
                   {books.map(b => (
@@ -122,7 +126,7 @@ const Orders = () => {
                 </select>
               </div>
             </div>
-            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <div style={{ display: 'flex', gap: '1rem', marginTop: '1rem', flexWrap: 'wrap' }}>
               <button type="submit" className="btn btn-primary">Process Borrowing</button>
               <button type="button" className="btn btn-ghost" onClick={() => setShowAddForm(false)}>Cancel</button>
             </div>
@@ -165,19 +169,19 @@ const Orders = () => {
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <User size={16} className="text-muted" />
-                        <span>{getCustomerName(order.customerID)}</span>
+                        <span>{getCustomerName(order.CustomerID)}</span>
                       </div>
                     </td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                         <BookIcon size={16} className="text-muted" />
-                        <span style={{ fontWeight: '500' }}>{getBookTitle(order.bookID)}</span>
+                        <span style={{ fontWeight: '500' }}>{getBookTitle(order.BookID)}</span>
                       </div>
                     </td>
                     <td>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-muted)' }}>
                         <Calendar size={16} />
-                        <span>{order.borrowDate || "N/A"}</span>
+                        <span>{order.initialDate ? new Date(order.initialDate).toLocaleDateString() : "N/A"}</span>
                       </div>
                     </td>
                     <td>
