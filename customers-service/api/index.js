@@ -17,15 +17,13 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://library-micro-serveces-app.vercel.app/",
+      "https://library-micro-services-app.vercel.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-
-app.options("*", cors());
 app.use(express.json());
 /* =========================================
    MongoDB Connection (Serverless Safe)
@@ -37,11 +35,14 @@ async function connectDB() {
   if (isConnected) return;
 
   try {
+    if (!process.env.MONGO_URI) {
+      throw new Error("MONGO_URI is not defined in environment variables");
+    }
     const db = await mongoose.connect(process.env.MONGO_URI);
     isConnected = db.connections[0].readyState === 1;
     console.log("✅ MongoDB Connected (Customers Service)");
   } catch (error) {
-    console.error("❌ MongoDB Connection Error:", error);
+    console.error("❌ MongoDB Connection Error:", error.message);
     throw error;
   }
 }
