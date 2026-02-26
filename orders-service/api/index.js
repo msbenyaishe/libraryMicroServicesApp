@@ -29,14 +29,23 @@ app.use(express.json());
 /* MongoDB Connection */
 /* ============================= */
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(function () {
+let isConnected = false;
+const connectDB = async () => {
+  if (isConnected) return;
+  try {
+    const db = await mongoose.connect(process.env.MONGO_URI);
+    isConnected = db.connections[0].readyState;
     console.log("MongoDB Connected (Orders Service)");
-  })
-  .catch(function (err) {
+  } catch (err) {
     console.log("Mongo Error:", err);
-  });
+  }
+};
+
+// Middleware to ensure DB is connected
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+});
 
 /* ============================= */
 /* Routes */
