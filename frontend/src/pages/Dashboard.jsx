@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { BookOpen, Users, ArrowLeftRight, TrendingUp } from "lucide-react";
 import booksService from "../services/booksService";
 import customersService from "../services/customersService";
 import ordersService from "../services/ordersService";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [stats, setStats] = useState({
     books: 0,
     members: 0,
@@ -82,8 +84,8 @@ const Dashboard = () => {
         <div className="card">
           <h4 style={{ marginBottom: '1rem' }}>Quick Actions</h4>
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <button className="btn btn-primary" onClick={() => window.location.href='/borrowing'}>Create Borrowing</button>
-            <button className="btn btn-secondary" onClick={() => window.location.href='/books'}>Add New Book</button>
+            <button className="btn btn-primary" onClick={() => navigate('/borrowing')}>Create Borrowing</button>
+            <button className="btn btn-secondary" onClick={() => navigate('/books')}>Add New Book</button>
           </div>
         </div>
         <div className="card">
